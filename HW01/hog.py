@@ -37,7 +37,6 @@ def take_turn(num_rolls, opponent_score, dice=six_sided):
     assert num_rolls <= 10, 'Cannot roll more than 10 dice.'
     assert opponent_score < 100, 'The game should be over.'
     # BEGIN Question 2
-    "*** REPLACE THIS LINE ***"
 
     if num_rolls == 0:
         return max(opponent_score//10, opponent_score % 10) + 1
@@ -100,21 +99,21 @@ def play(strategy0, strategy1, score0=0, score1=0, goal=GOAL_SCORE):
     """
     who = 0  # Which player is about to take a turn, 0 (first) or 1 (second)
     # BEGIN Question 5
-    while score0 < goal or score1 < goal: #continue playing game until one player reaches 100
+    while score0 < goal and score1 < goal: #continue playing game until one player reaches 100
 
         # IMPLEMENTS THE HOG WILD RULE (I THINK)
         if select_dice(score0, score1) == four_sided:
-            dice = make_fair_dice(4)
+            dice = four_sided
         else:
-            dice = make_fair_dice(6)
+            dice = six_sided
 
         if who == 0: #Player0 turn
-            # score0 += strategy0
+            score0 += take_turn(strategy0(score0,score1),score1,dice)
 
 
 
         else: # player1 turn
-            # score1 += strategy1
+            score0 += take_turn(strategy1(score0,score1),score0,dice)
 
         # ALTERNATES TURNS
         who = other(who)
@@ -123,9 +122,12 @@ def play(strategy0, strategy1, score0=0, score1=0, goal=GOAL_SCORE):
         if is_swap(score0, score1) == True:
             score0, score1 = score1, score0
 
-    "*** REPLACE THIS LINE ***"
+
+
+
     # END Question 5
     return score0, score1
+
 
 
 def always_roll(n):
@@ -144,3 +146,14 @@ def always_roll(n):
     def strategy(score, opponent_score):
         return n
     return strategy
+
+
+
+
+import random
+four_sided = lambda: random.randrange(1, 5)
+six_sided = lambda: random.randrange(1, 7)
+random_strat = lambda a, b: (random.randrange(11) + b) % 10
+random.seed(4321)
+for _ in range(100):
+       s0, s1 = play(random_strat,random_strat)

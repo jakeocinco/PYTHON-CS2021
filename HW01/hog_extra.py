@@ -1,7 +1,8 @@
 #######################
 # Phase 2: Strategies #
 #######################
-
+from dice import four_sided, six_sided, make_test_dice
+from hog import roll_dice, is_swap
 def always_roll(n):
     """Return a strategy that always rolls N dice.
 
@@ -40,8 +41,20 @@ def make_averaged(fn, num_samples=1000):
     Thus, the average value is 6.0.
     """
     # BEGIN Question 6
-    "*** REPLACE THIS LINE ***"
+
+    def average(*args):
+        total = 0
+        for i in range(num_samples):
+            total += fn(*args)
+        return total / num_samples
+
+
+
+    val = average
+    print(val)
     # END Question 6
+
+
 
 def max_scoring_num_rolls(dice=six_sided, num_samples=1000):
     """Return the number of dice (1 to 10) that gives the highest average turn
@@ -53,8 +66,17 @@ def max_scoring_num_rolls(dice=six_sided, num_samples=1000):
     10
     """
     # BEGIN Question 7
-    "*** REPLACE THIS LINE ***"
+    highest = 0
+    iVal = 0
+    for i in range(10):
+
+        val = roll_dice(i + 1, dice)
+        if val > highest:
+            highest = val
+            iVal = i;
+    print(iVal + 1)
     # END Question 7
+
 
 def winner(strategy0, strategy1):
     """Return 0 if strategy0 wins against strategy1, and 1 otherwise."""
@@ -97,9 +119,11 @@ def bacon_strategy(score, opponent_score, margin=8, num_rolls=5):
     and rolls NUM_ROLLS otherwise.
     """
     # BEGIN Question 8
-    "*** REPLACE THIS LINE ***"
-    return 5 # Replace this statement
+    if max(opponent_score//10, opponent_score % 10) + 1 >= margin:
+        return 0
+    return num_rolls # Replace this statement
     # END Question 8
+
 
 def swap_strategy(score, opponent_score, margin=8, num_rolls=5):
     """This strategy rolls 0 dice when it results in a beneficial swap and
@@ -108,20 +132,33 @@ def swap_strategy(score, opponent_score, margin=8, num_rolls=5):
     otherwise.
     """
     # BEGIN Question 9
-    "*** REPLACE THIS LINE ***"
-    return 5 # Replace this statement
+    if is_swap(score, opponent_score) and opponent_score > score:
+        return 0
+    return bacon_strategy(score, opponent_score, margin, num_rolls) # Replace this statement
     # END Question 9
+
+
 
 
 def final_strategy(score, opponent_score):
     """Write a brief description of your final strategy.
 
     *** YOUR DESCRIPTION HERE ***
+    - If you're winning roll two dice
+    - Determine if 'swap_strategy' is gives you atleast 9 points do it
+        or enough to go up
+    - Determine number of points you're down then divide that by 10, and add 1
     """
     # BEGIN Question 10
-    "*** REPLACE THIS LINE ***"
-    return 5 # Replace this statement
+    if score >= opponent_score:
+        return 2
+    else:
+        rolls = min(5,(opponent_score - score) // 10 + 1);
+        margin = max(9, opponent_score - score);
+        return swap_strategy(score, opponent_score, margin,rolls)
+    # Replace this statement
     # END Question 10
+
 
 
 ##########################
@@ -132,7 +169,7 @@ def final_strategy(score, opponent_score):
 #       of Python not yet covered in the course.
 
 
-@main
+# @main
 def run(*args):
     """Read in the command-line argument and calls corresponding functions.
 

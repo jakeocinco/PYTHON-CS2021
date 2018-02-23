@@ -16,7 +16,7 @@ def map_and_filter(s, map_fn, filter_fn):
     [1, 9, 25]
     """
     # BEGIN Question 0
-    # return [map_fn for i in s if filter_fn]
+    return [map_fn for i in s if filter_fn]
     # END Question 0
 
 def key_of_min_value(d):
@@ -69,6 +69,7 @@ def enumerate(s, start=0):
     x = []
     for j in range(0,i):
         x.append(j + start)
+    print(zip(x, s))
     result = zip(x, s)
 
     # END Question 0

@@ -16,7 +16,7 @@ def map_and_filter(s, map_fn, filter_fn):
     [1, 9, 25]
     """
     # BEGIN Question 0
-    return [map_fn for i in s if filter_fn]
+    return [map_fn(i) for i in s if filter_fn(i)]
     # END Question 0
 
 def key_of_min_value(d):

@@ -71,6 +71,7 @@ def make_restaurant(name, location, categories, price, reviews):
         'location': location,
         'categories': categories,
         'price': price,
+        'reviews': reviews
     }
 
 def restaurant_name(restaurant):
@@ -94,15 +95,22 @@ def restaurant_ratings(restaurant):
     """Return a list of ratings, which are numbers from 1 to 5, of the
     restaurant based on the reviews of the restaurant."""
     # BEGIN Question 1
+    rev = []
+
+    for i in restaurant['reviews']:
+        rev.append(i[1])
+
+    return rev
+
     "*** REPLACE THIS LINE ***"
     # END Question 1
-
 
 ### === +++ RESTAURANT ABSTRACTION BARRIER +++ === ###
 
 def restaurant_num_ratings(restaurant):
     """Return the number of ratings for restaurant."""
     # BEGIN Question 2
+    return len(restaurant['reviews']) #restaurant_ratings(restaurant))
     "*** REPLACE THIS LINE ***"
     # END Question 2
 
@@ -110,4 +118,11 @@ def restaurant_mean_rating(restaurant):
     """Return the average rating for restaurant."""
     # BEGIN Question 2
     "*** REPLACE THIS LINE ***"
+    return sum(restaurant_ratings(restaurant))/restaurant_num_ratings(restaurant)
     # END Question 2
+woz_reviews = [make_review('Wozniak Lounge', 4),make_review('Wozniak Lounge', 3),make_review('Wozniak Lounge', 5)]
+woz = make_restaurant('Wozniak Lounge', [127.0, 0.1],['Restaurants', 'Pizza'],1, woz_reviews)
+print(restaurant_num_ratings(woz))
+# 3
+print(restaurant_mean_rating(woz)) # decimal value
+# 4.0

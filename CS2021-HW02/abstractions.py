@@ -120,9 +120,3 @@ def restaurant_mean_rating(restaurant):
     "*** REPLACE THIS LINE ***"
     return sum(restaurant_ratings(restaurant))/restaurant_num_ratings(restaurant)
     # END Question 2
-woz_reviews = [make_review('Wozniak Lounge', 4),make_review('Wozniak Lounge', 3),make_review('Wozniak Lounge', 5)]
-woz = make_restaurant('Wozniak Lounge', [127.0, 0.1],['Restaurants', 'Pizza'],1, woz_reviews)
-print(restaurant_num_ratings(woz))
-# 3
-print(restaurant_mean_rating(woz)) # decimal value
-# 4.0

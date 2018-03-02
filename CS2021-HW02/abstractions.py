@@ -120,3 +120,4 @@ def restaurant_mean_rating(restaurant):
     "*** REPLACE THIS LINE ***"
     return sum(restaurant_ratings(restaurant))/restaurant_num_ratings(restaurant)
     # END Question 2
+    

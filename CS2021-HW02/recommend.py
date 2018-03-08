@@ -20,14 +20,17 @@ def find_closest(location, centroids):
     # BEGIN Question 3
     minimum = 1000000
     minIndex = 0
-    for i in range(len(centroids)):
-        dist = distance(location, centroids[i])
+    j = 0
+    for i in centroids:
+        dist = distance(location, i)
         if dist < minimum:
-            minIndex = i
+            minIndex = j
             minimum = dist
+        j += 1
     return centroids[minIndex]
     "*** REPLACE THIS LINE ***"
     # END Question 3
+
 
 def group_by_first(pairs):
     """Return a list of pairs that relates each unique key in the [key, value]
@@ -69,10 +72,10 @@ def group_by_centroid(restaurants, centroids):
     for i in range(len(closest)):
         for j in range(len(centroids)):
             if closest[i] == centroids[j]:
-                groups[j].append(restaurant_name(restaurants[i]))
+                # groups[j].append(restaurants[i])
+                groups[j] += [restaurants[i]]
 
-    return(groups)
-    "*** REPLACE THIS LINE ***"
+    return groups
     # END Question 4
 
 # r1 = make_restaurant('A', [-10, 2], [], 2, [make_review('A', 4),])
@@ -83,10 +86,10 @@ def group_by_centroid(restaurants, centroids):
 # c1 = [0, 0]
 # c2 = [3, 4]
 # groups = group_by_centroid([r1, r2, r3, r4, r5], [c1, c2])
-# print(groups)
-# correct grouping is  [[r1, r2], [r3, r4, r5]])
-# [list (map (lambda r: r ['name'], c)) for c in groups]
-# [['A', 'B'], ['C', 'D', 'E']]
+#
+# # correct grouping is  [[r1, r2], [r3, r4, r5]])
+# print([list (map (lambda r: r ['name'], c)) for c in groups])
+# # [['A', 'B'], ['C', 'D', 'E']]
 
 def find_centroid(cluster):
     """Return the centroid of the locations of the restaurants in cluster."""
@@ -95,51 +98,68 @@ def find_centroid(cluster):
     x = []
     y = []
     for r in cluster:
-        x += [restaurant_location(r)[0]]
-        y += [restaurant_location(r)[1]]
+        loc = restaurant_location(r)
+        x += [loc[0]]
+        y += [loc[1]]
 
     return [mean(x), mean(y)]
     # END Question 5
 # cluster1 = [make_restaurant('A', [-3, -4], [], 3, [make_review('A', 2)]), make_restaurant('B', [1, -1],  [], 1, [make_review('B', 1)]), make_restaurant('C', [2, -4],  [], 1, [make_review('C', 5)]),]
 # print(find_centroid(cluster1)) # should be a pair of decimals
-# # [0.0, -3.0]
+# #[0.0, -3.0]
 
 def k_means(restaurants, k, max_updates=100):
     """Use k-means to group restaurants by location into k clusters."""
     assert len(restaurants) >= k, 'Not enough restaurants to cluster'
     old_centroids, n = [], 0
+    centroids = [0] * k
     # Select initial centroids randomly by choosing k different restaurants
-    centroids = [restaurant_location(r) for r in sample(restaurants, k)]
-    print(centroids)
-    while old_centroids != centroids and n < max_updates:
-        old_centroids = centroids
-        # BEGIN Question 6
-        cluster = group_by_centroid(restaurants, centroids)
-        print(cluster)
-        centroids = find_centroid(restaurants)
-        # for c in centroids:
 
-        "*** REPLACE THIS LINE ***"
-        # END Question 6
+    centroids = [restaurant_location(r) for r in sample(restaurants, k)]
+
+    # print(centroids)
+    while old_centroids != centroids and n < max_updates:
+
         n += 1
+        j = 0;
+
+        print(centroids)
+        # return [[y for x, y in pairs if x == key] for key in keys]
+        old_centroids = centroids
+        groups = group_by_centroid(restaurants, centroids)
+
+        centroids = [] * k
+        for g in groups:
+            print(find_centroid(g))
+            centroids += [find_centroid(g)]
+
+
+
+        # print(len(groups))
+        # print(groups[0])
+        # print(groups[1])
+
+
+    print(n)
+
     return centroids
 
 restaurants1 = [make_restaurant('A', [-3, -4], [], 3, [make_review('A', 2)]), make_restaurant('B', [1, -1],  [], 1, [make_review('B', 1)]), make_restaurant('C', [2, -4],  [], 1, [make_review('C', 5)]),]
-centroids = k_means(restaurants1, 1)
+# centroids = k_means(restaurants1, 1)
 # print(centroids) # should be 2-element lists of decimals
 # [[0.0, -3.0]]
 restaurants2 = [make_restaurant('D', [2, 3], [], 2, [make_review('D', 2)]), make_restaurant('E', [0, 3], [], 3, [make_review('E', 1)]),]
-centroids = k_means(restaurants2, 1)
+# centroids = k_means(restaurants2, 1)
 # print(centroids) # should be 2-element lists of decimals
 # [[1.0, 3.0]]
 # print(k_means(restaurants1 + restaurants2, 1))
-# # [[0.4, -0.6]]
-# print(k_means(restaurants1 + restaurants2, 2))
-# # [[0.0, -3.0], [1.0, 3.0]]
-# print(k_means(restaurants1 + restaurants2, 3))
-# # [[-0.5, -4.0], [1.0, -1.0], [1.0, 3.0]]
+# [[0.4, -0.6]]
+# `print(k_means(restaurants1 + restaurants2, 2))
+# [[0.0, -3.0], [1.0, 3.0]]
+print(k_means(restaurants1 + restaurants2, 3))
+print([[-0.5, -4.0], [1.0, -1.0], [1.0, 3.0]])
 # print(k_means(restaurants1 + restaurants2, 4))
-# # [[-3.0, -4.0], [1.5, -2.5], [2.0, 3.0], [0.0, 3.0]]
+# print([[-3.0, -4.0], [1.5, -2.5], [2.0, 3.0], [0.0, 3.0]])
 # print(k_means(restaurants1 + restaurants2, 5))
 # [[-3.0, -4.0], [1.0, -1.0], [2.0, -4.0], [2.0, 3.0], [0.0, 3.0]]
 

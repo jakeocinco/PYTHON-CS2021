@@ -80,7 +80,9 @@ def distance(pos1, pos2):
     >>> distance([1, 2], [4, 6])
     5.0
     """
-    return sqrt((pos1[0] - pos2[0]) ** 2 + (pos1[1] - pos2[1]) ** 2)
+    v1 = (pos1[0] - pos2[0]) ** 2
+    v2 = (pos1[1] - pos2[1]) ** 2
+    return sqrt(v1 + v2)
 
 def mean(s):
     """Return the arithmetic mean of a sequence of numbers s.

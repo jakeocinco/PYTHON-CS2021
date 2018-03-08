@@ -201,20 +201,20 @@ def find_predictor(user, restaurants, feature_fn):
 
     return predictor, r_squared
 
-user = make_user('John D.', [
-     make_review('A', 1),
-     make_review('B', 5),
-     make_review('C', 2),
-     make_review('D', 2.5),])
-restaurant = make_restaurant('New', [-10, 2], [], 2, [make_review('New', 4),])
-cluster = [make_restaurant('B', [4, 2], [], 1, [make_review('B', 5)]),
-     make_restaurant('C', [-2, 6], [], 4, [make_review('C', 2)]),
-     make_restaurant('D', [4, 2], [], 3.5, [make_review('D', 2.5),
-     make_review('D', 3),]),]
-pred, r_squared = find_predictor(user, cluster, restaurant_mean_rating)
-print(round(pred(restaurant), 5))
-# 3.9359
-print(round(r_squared, 5))
+# user = make_user('John D.', [
+#      make_review('A', 1),
+#      make_review('B', 5),
+#      make_review('C', 2),
+#      make_review('D', 2.5),])
+# restaurant = make_restaurant('New', [-10, 2], [], 2, [make_review('New', 4),])
+# cluster = [make_restaurant('B', [4, 2], [], 1, [make_review('B', 5)]),
+#      make_restaurant('C', [-2, 6], [], 4, [make_review('C', 2)]),
+#      make_restaurant('D', [4, 2], [], 3.5, [make_review('D', 2.5),
+#      make_review('D', 3),]),]
+# pred, r_squared = find_predictor(user, cluster, restaurant_mean_rating)
+# print(round(pred(restaurant), 5))
+# # 3.9359
+# print(round(r_squared, 5))
 # 0.99256
 
 
@@ -230,9 +230,36 @@ def best_predictor(user, restaurants, feature_fns):
     """
     reviewed = user_reviewed_restaurants(user, restaurants)
     # BEGIN Question 8
+    pred = []
+    for f in feature_fns:
+        print(f)
+        pred += [find_predictor(user, restaurants, feature_fns(i)) for i in feature_fns]
+        print(pred)
+
+
+
     "*** REPLACE THIS LINE ***"
     # END Question 8
 
+user = make_user('Cheapskate', [
+         make_review('A', 2),
+         make_review('B', 5),
+         make_review('C', 2),
+         make_review('D', 5),
+        ])
+
+cluster = [
+    make_restaurant('A', [5, 2], [], 4, [
+    make_review('A', 5) ]),
+    make_restaurant('B', [3, 2], [], 2, [
+    make_review('B', 5) ]),
+    make_restaurant('C', [-2, 6], [], 4, [
+    make_review('C', 4) ]), ]
+
+fns = [restaurant_price, restaurant_mean_rating]
+
+pred = best_predictor(user, cluster, fns)
+print ([round(pred(r), 5) for r in cluster], "SHOULD =",[2.0, 5.0, 2.0])
 
 def rate_all(user, restaurants, feature_fns):
     """Return the predicted ratings of restaurants by user using the best
@@ -258,6 +285,9 @@ def search(query, restaurants):
     restaurants -- A sequence of restaurants
     """
     # BEGIN Question 10
+
+    result = [r for r in restaurants if restaurant_categories(r) in category]
+
     "*** REPLACE THIS LINE ***"
     # END Question 10
 

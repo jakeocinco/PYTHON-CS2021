@@ -121,43 +121,39 @@ def k_means(restaurants, k, max_updates=100):
     while old_centroids != centroids and n < max_updates:
 
         n += 1
-        j = 0;
+        old_centroids = []
 
-        print(centroids)
+        for c in centroids:
+            old_centroids += [c]
+
         # return [[y for x, y in pairs if x == key] for key in keys]
         old_centroids = centroids
         groups = group_by_centroid(restaurants, centroids)
 
+
+        distances = []
+
+
         centroids = [] * k
         for g in groups:
-            print(find_centroid(g))
             centroids += [find_centroid(g)]
 
-
-
-        # print(len(groups))
-        # print(groups[0])
-        # print(groups[1])
-
-
-    print(n)
-
     return centroids
-
-restaurants1 = [make_restaurant('A', [-3, -4], [], 3, [make_review('A', 2)]), make_restaurant('B', [1, -1],  [], 1, [make_review('B', 1)]), make_restaurant('C', [2, -4],  [], 1, [make_review('C', 5)]),]
-# centroids = k_means(restaurants1, 1)
-# print(centroids) # should be 2-element lists of decimals
-# [[0.0, -3.0]]
-restaurants2 = [make_restaurant('D', [2, 3], [], 2, [make_review('D', 2)]), make_restaurant('E', [0, 3], [], 3, [make_review('E', 1)]),]
-# centroids = k_means(restaurants2, 1)
-# print(centroids) # should be 2-element lists of decimals
-# [[1.0, 3.0]]
-# print(k_means(restaurants1 + restaurants2, 1))
-# [[0.4, -0.6]]
-# `print(k_means(restaurants1 + restaurants2, 2))
-# [[0.0, -3.0], [1.0, 3.0]]
-print(k_means(restaurants1 + restaurants2, 3))
-print([[-0.5, -4.0], [1.0, -1.0], [1.0, 3.0]])
+#
+# restaurants1 = [make_restaurant('A', [-3, -4], [], 3, [make_review('A', 2)]), make_restaurant('B', [1, -1],  [], 1, [make_review('B', 1)]), make_restaurant('C', [2, -4],  [], 1, [make_review('C', 5)]),]
+# # centroids = k_means(restaurants1, 1)
+# # print(centroids) # should be 2-element lists of decimals
+# # [[0.0, -3.0]]
+# restaurants2 = [make_restaurant('D', [2, 3], [], 2, [make_review('D', 2)]), make_restaurant('E', [0, 3], [], 3, [make_review('E', 1)]),]
+# # centroids = k_means(restaurants2, 1)
+# # print(centroids) # should be 2-element lists of decimals
+# # [[1.0, 3.0]]
+# # print(k_means(restaurants1 + restaurants2, 1))
+# # [[0.4, -0.6]]
+# # `print(k_means(restaurants1 + restaurants2, 2))
+# # [[0.0, -3.0], [1.0, 3.0]]
+# print(k_means(restaurants1 + restaurants2, 3))
+# print([[-0.5, -4.0], [1.0, -1.0], [1.0, 3.0]])
 # print(k_means(restaurants1 + restaurants2, 4))
 # print([[-3.0, -4.0], [1.5, -2.5], [2.0, 3.0], [0.0, 3.0]])
 # print(k_means(restaurants1 + restaurants2, 5))

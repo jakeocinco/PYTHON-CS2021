@@ -228,38 +228,38 @@ def best_predictor(user, restaurants, feature_fns):
     restaurants -- A list of restaurants
     feature_fns -- A sequence of functions that each takes a restaurant
     """
-    reviewed = user_reviewed_restaurants(user, restaurants)
-    # BEGIN Question 8
-    pred = []
-    for f in feature_fns:
-        print(f)
-        pred += [find_predictor(user, restaurants, feature_fns(i)) for i in feature_fns]
-        print(pred)
+    # reviewed = user_reviewed_restaurants(user, restaurants)
+    # # BEGIN Question 8
+    # pred = []
+    # for f in feature_fns:
+    #     print(f)
+    #     pred += [find_predictor(user, restaurants, feature_fns(i)) for i in feature_fns]
+    #     print(pred)
 
 
 
     "*** REPLACE THIS LINE ***"
     # END Question 8
 
-user = make_user('Cheapskate', [
-         make_review('A', 2),
-         make_review('B', 5),
-         make_review('C', 2),
-         make_review('D', 5),
-        ])
-
-cluster = [
-    make_restaurant('A', [5, 2], [], 4, [
-    make_review('A', 5) ]),
-    make_restaurant('B', [3, 2], [], 2, [
-    make_review('B', 5) ]),
-    make_restaurant('C', [-2, 6], [], 4, [
-    make_review('C', 4) ]), ]
-
-fns = [restaurant_price, restaurant_mean_rating]
-
-pred = best_predictor(user, cluster, fns)
-print ([round(pred(r), 5) for r in cluster], "SHOULD =",[2.0, 5.0, 2.0])
+# user = make_user('Cheapskate', [
+#          make_review('A', 2),
+#          make_review('B', 5),
+#          make_review('C', 2),
+#          make_review('D', 5),
+#         ])
+#
+# cluster = [
+#     make_restaurant('A', [5, 2], [], 4, [
+#     make_review('A', 5) ]),
+#     make_restaurant('B', [3, 2], [], 2, [
+#     make_review('B', 5) ]),
+#     make_restaurant('C', [-2, 6], [], 4, [
+#     make_review('C', 4) ]), ]
+#
+# fns = [restaurant_price, restaurant_mean_rating]
+#
+# pred = best_predictor(user, cluster, fns)
+# print ([round(pred(r), 5) for r in cluster], "SHOULD =",[2.0, 5.0, 2.0])
 
 def rate_all(user, restaurants, feature_fns):
     """Return the predicted ratings of restaurants by user using the best

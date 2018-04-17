@@ -1,0 +1,449 @@
+<!DOCTYPE html>
+
+<html lang="en"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  <meta name="description" content="CS:2021 Python Programming">
+<meta name="keywords" content="CS2021, Computer Science, CS, EECS">
+  <meta name="author" content="cs2021">
+
+  <meta name="viewport" content="width=device-width">
+
+  <script src="jquery.min.js"></script>
+  <script src="bootstrap.min.js"></script>
+
+<link rel="stylesheet" href="bootstrap.min.css">
+  <link rel="stylesheet" type="text/css" href="style.css">
+  <link rel="icon" href="favicon.ico">
+
+  <link rel="stylesheet" href="mono-blue.css">
+  <script src="highlight.pack.js"></script>
+  <script>hljs.initHighlightingOnLoad();</script>
+
+
+
+
+  <link rel="stylesheet" type="text/css" href="resource.css">
+
+  <link rel="stylesheet" type="text/css" href="lab.css">
+
+
+
+
+  <title>Homework 4 | CS2021 Fall 2016</title>
+
+  </head>
+
+  <body id="index" class="home">
+    <nav class="navbar navbar-default navbar-fixed-top">
+      <div class="container">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar-collapse-section">
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a class="navbar-brand" href="../../index.html">CS2021</a>
+        </div>
+
+        <div class="collapse navbar-collapse" id="navbar-collapse-section">
+          <ul class="nav navbar-nav navbar-right">
+            <li><a href="../../index.html">Calendar</a></li>
+            <li><a href="../../office-hours.html">Office Hours</a></li>
+            <li><a href="../../tutoring.html">Tutoring</a></li>
+
+            <li><a href="../../articles/using-ok.html">Using OK</a></li>
+            <li class="dropdown">
+              <a href="index.html#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Course Info <span class="caret"></span></a>
+              <ul class="dropdown-menu">
+                <li><a href="../../articles/about.html">Syllabus</a></li>
+                <li><a href="../../staff.html">Staff</a></li>
+                <li><a href="../../weekly.html">Weekly Schedule</a></li>
+              </ul>
+            </li>
+
+          </ul>
+        </div>
+      </div>
+    </nav>
+
+    <div id="content" class="container">
+      <div class='row'>
+        <div class='col-md-9'>
+          <div class='page-header'>
+            <h1><span class="content-title-brand">Homework 4</span></h1>
+          </div>
+
+          <p><em>Due date on BB</em></p>
+
+          <h2>Instructions</h2>
+
+          <p>Download <a href="./hw04.py">
+            hw04.py</a>. </p>
+
+          <p><strong>Submission:</strong> When you are done with Questions 1-9, submit your assignment by uploading your completed module <code>hw04.py</code> to <code>BB</code>. You may submit more than once before the deadline; only the final submission will be scored. </p>
+
+          <p><strong>Readings:</strong> You might find the following references
+            useful:</p>
+
+          <ul>
+            <li><a href="http://composingprograms.com/pages/27-object-abstraction.html#multiple-representations">2.7.3</a></li>
+            <li><a href="http://composingprograms.com/pages/29-recursive-objects.html#linked-list-class">2.9.1</a></li>
+            <li><a href="http://composingprograms.com/pages/29-recursive-objects.html#tree-class">2.9.2</a></li>
+        
+            <li><a href="http://composingprograms.com/pages/42-implicit-sequences.html">4.2</a></li>
+          </ul>
+          </ul>
+
+
+
+
+          <h2 id="required-questions">Questions 1-9</h2>
+
+
+          <h3 class="question" id="q1">Question 1</h3>
+
+          <p>Implement <code>every_other</code>, which takes a linked list <code>s</code>. It mutates <code>s</code> such
+            that all of the odd-indexed elements (using 0-based indexing) are removed from
+            the list. For example:</p>
+
+          <pre><code>&gt;&gt;&gt; s = Link(&#x27;a&#x27;, Link(&#x27;b&#x27;, Link(&#x27;c&#x27;, Link(&#x27;d&#x27;))))
+&gt;&gt;&gt; every_other(s)
+&gt;&gt;&gt; s.first
+&#x27;a&#x27;
+&gt;&gt;&gt; s.rest.first
+&#x27;c&#x27;
+&gt;&gt;&gt; s.rest.rest is Link.empty
+True</code></pre>
+
+          <p>If <code>s</code> contains fewer than two elements, <code>s</code> remains unchanged.</p>
+
+          <blockquote><p>Do not return anything! <code>every_other</code> should mutate the original list.</p></blockquote>
+
+          <solution>
+
+            <pre><code>def every_other(s):
+    &quot;&quot;&quot;Mutates a linked list so that all the odd&#x2d;indiced elements are removed
+    (using 0&#x2d;based indexing).
+
+    &gt;&gt;&gt; s = Link(1, Link(2, Link(3, Link(4))))
+    &gt;&gt;&gt; every_other(s)
+    &gt;&gt;&gt; s
+    Link(1, Link(3))
+    &gt;&gt;&gt; odd_length = Link(5, Link(3, Link(1)))
+    &gt;&gt;&gt; every_other(odd_length)
+    &gt;&gt;&gt; odd_length
+    Link(5, Link(1))
+    &gt;&gt;&gt; singleton = Link(4)
+    &gt;&gt;&gt; every_other(singleton)
+    &gt;&gt;&gt; singleton
+    Link(4)
+    &quot;&quot;&quot;
+    "*** YOUR CODE HERE ***"</code></pre>
+
+          </solution>
+
+          <p>Test your code:</p><pre><code>python3 -i hw04.py</code></pre>
+
+          <h3 class="question" id="q2">Question 2</h3>
+
+          <p>The <code>Link</code> class can represent lists with cycles.  That is, a list may
+            contain itself as a sublist.</p>
+
+          <pre><code>&gt;&gt;&gt; s = Link(1, Link(2, Link(3)))
+&gt;&gt;&gt; s.rest.rest.rest = s
+&gt;&gt;&gt; s.rest.rest.rest.rest.rest.first
+3</code></pre>
+
+          <p>Implement <code>has_cycle</code> that returns whether its argument, a <code>Link</code> instance,
+            contains a cycle.</p>
+
+          <blockquote><p><em>Hint</em>: Iterate through the linked list and try keeping track of which <code>Link</code>
+            objects you've already seen.</p></blockquote>
+
+          <pre><code>def has_cycle(s):
+    &quot;&quot;&quot;Return whether Link s contains a cycle.
+
+    &gt;&gt;&gt; s = Link(1, Link(2, Link(3)))
+    &gt;&gt;&gt; s.rest.rest.rest = s
+    &gt;&gt;&gt; has_cycle(s)
+    True
+    &gt;&gt;&gt; t = Link(1, Link(2, Link(3)))
+    &gt;&gt;&gt; has_cycle(t)
+    False
+    &quot;&quot;&quot;
+    "*** YOUR CODE HERE ***"</code></pre>
+
+          <p>Test your code:</p><pre><code>python3 -i hw04.py</code></pre>
+
+          
+
+
+          <h3 class="question" id="q3">Question 3</h3>
+
+          <p>Implement <code>has_cycle_constant</code>, which has the same behavior as <code>has_cycle</code> but
+            requires only <a href="http://composingprograms.com/pages/28-efficiency.html#growth-categories">constant space</a>. The solution is short (less than 20 lines of
+            code), but requires a clever idea about using two pointers. Try to discover the solution yourself before
+            asking around:</p>
+
+          <pre><code>def has_cycle_constant(s):
+    &quot;&quot;&quot;Return whether Link s contains a cycle.
+
+    &gt;&gt;&gt; s = Link(1, Link(2, Link(3)))
+    &gt;&gt;&gt; s.rest.rest.rest = s
+    &gt;&gt;&gt; has_cycle_constant(s)
+    True
+    &gt;&gt;&gt; t = Link(1, Link(2, Link(3)))
+    &gt;&gt;&gt; has_cycle_constant(t)
+    False
+    &quot;&quot;&quot;
+    "*** YOUR CODE HERE ***"</code></pre>
+
+          <p>Test your code:</p><pre><code>python3 -i hw04.py</code></pre>
+
+
+
+          <h3 class="question" id="q4">Question 4</h3>
+
+          <p>Implement <code>__contains__</code> for the <code>Link</code> class, which allows us to use the <code>in</code>
+            operator to check if a <code>value</code> is contained in a linked list.</p>
+
+          <solution>
+
+            <pre><code>class Link:
+    empty = ()
+
+    def __init__(self, first, rest=empty):
+        assert rest is Link.empty or isinstance(rest, Link)
+        self.first = first
+        self.rest = rest
+
+    def __contains__(self, value):
+        "*** YOUR CODE HERE ***"</code></pre>
+
+          </solution>
+
+          <p>Test your code:</p><pre><code>python3 -i hw04.py</code></pre>
+
+        
+    
+        <h3 class="question" id="q5">Question 5</h3>
+
+        <p>Implement <code>__iadd__</code> for the <code>Link</code> class, which allows us to use the <code>+=</code>
+          operator to add a linked list to the end of another linked list.</p>
+
+        <solution>
+
+          <pre><code>class Link:
+    empty = ()
+
+    def __init__(self, first, rest=empty):
+        assert rest is Link.empty or isinstance(rest, Link)
+        self.first = first
+        self.rest = rest
+
+    def __iadd__(self, s):
+         &quot;&quot;&quot;Add the linked list s to the end of self.
+         &gt;&gt;&gt; s = Link(1, Link(2, Link(3)))
+         &gt;&gt;&gt; s += s
+         &gt;&gt;&gt; s
+         Link(1, Link(2, Link(3, Link(1, Link(2, Link(3))))))
+         &quot;&quot;&quot;
+         "*** YOUR CODE HERE ***"</code></pre>
+
+        </solution>
+
+        <p>Test your code:</p><pre><code>python3 -i hw04.py</code></pre>
+
+        
+
+          <h3 id="generating-natural-numbers">Generating natural numbers</h3>
+
+
+          <p>The following questions use the <code>naturals</code> generator function, which yields
+            an infinite sequence of integers starting at 1.</p>
+
+          <pre><code>def naturals():
+    &quot;&quot;&quot;A generator function that yields the infinite sequence of natural
+    numbers, starting at 1. 
+
+    &gt;&gt;&gt; m = naturals()
+    &gt;&gt;&gt; type(m)
+    &lt;class &#x27;generator&#x27;&gt;
+    &gt;&gt;&gt; [next(m) for _ in range(10)]
+    [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
+    &quot;&quot;&quot;
+    i = 1
+    while True:
+        yield i
+        i += 1</code></pre>
+
+          <h3 class="question" id="q6">Question 6</h3>
+
+          <p>Implement an iterator class called <code>ScaleIterator</code> that scales elements in an
+            iterable <code>s</code> by a number <code>k</code>.</p>
+
+          <solution>
+
+            <pre><code>class ScaleIterator:
+    &quot;&quot;&quot;An iterator the scales elements of the iterable s by a number k.
+
+    &gt;&gt;&gt; s = ScaleIterator([1, 5, 2], 5)
+    &gt;&gt;&gt; list(s)
+    [5, 25, 10]
+
+    &gt;&gt;&gt; m = ScaleIterator(naturals(), 2)
+    &gt;&gt;&gt; [next(m) for _ in range(5)]
+    [2, 4, 6, 8, 10]
+    &quot;&quot;&quot;
+    def __init__(self, s, k):
+        "*** YOUR CODE HERE ***"
+
+    def __iter__(self):
+        return self
+
+    def __next__(self):
+        "*** YOUR CODE HERE ***"</code></pre>
+
+          </solution>
+
+          <p>Test your code:</p><pre><code>python3 -i hw04.py</code></pre>
+
+          <h3 class="question" id="q7">Question 7</h3>
+
+          <p>Implement the generator function <code>scale(s, k)</code>, which yields elements of the
+            given iterable <code>s</code>, scaled by <code>k</code>.</p>
+
+          <solution>
+
+            <pre><code>def scale(s, k):
+    &quot;&quot;&quot;Yield elements of the iterable s scaled by a number k.
+
+    &gt;&gt;&gt; s = scale([1, 5, 2], 5)
+    &gt;&gt;&gt; type(s)
+    &lt;class &#x27;generator&#x27;&gt;
+    &gt;&gt;&gt; list(s)
+    [5, 25, 10]
+
+    &gt;&gt;&gt; m = scale(naturals(), 2)
+    &gt;&gt;&gt; [next(m) for _ in range(5)]
+    [2, 4, 6, 8, 10]
+    &quot;&quot;&quot;
+    "*** YOUR CODE HERE ***"</code></pre>
+
+          </solution>
+
+          <p>Test your code:</p><pre><code>python3 -i hw04.py</code></pre>
+
+          <h3 class="question" id="q8">Question 8</h3>
+
+          <p>Implement <code>merge(s1, s2)</code>, which takes two iterables <code>s1</code> and <code>s2</code> whose
+            elements are ordered. <code>merge</code> yields elements from <code>s1</code> and <code>s2</code> in sorted
+            order, elimnating repetition.  You may assume <code>s0</code> and <code>s1</code> themselves do not
+            contain repeats. <strong>You may also assume <code>s0</code> and <code>s1</code> represent infinite
+            sequences; that is, their iterators never raise <code>StopIteration</code></strong>.</p>
+
+          <p>See the doctests for example behavior.</p>
+
+          <solution>
+
+            <pre><code>def merge(s0, s1):
+    &quot;&quot;&quot;Yield the elements of strictly increasing iterables s0 and s1, removing
+    repeats. Assume that s0 and s1 have no repeats. You can also assume that s0
+    and s1 represent infinite sequences.
+
+    &gt;&gt;&gt; twos = scale(naturals(), 2)
+    &gt;&gt;&gt; threes = scale(naturals(), 3)
+    &gt;&gt;&gt; m = merge(twos, threes)
+    &gt;&gt;&gt; type(m)
+    &lt;class &#x27;generator&#x27;&gt;
+    &gt;&gt;&gt; [next(m) for _ in range(10)]
+    [2, 3, 4, 6, 8, 9, 10, 12, 14, 15]
+    &quot;&quot;&quot;
+    i0, i1 = iter(s0), iter(s1)
+    e0, e1 = next(i0), next(i1)
+    "*** YOUR CODE HERE ***"</code></pre>
+
+          </solution>
+
+          <p>Test your code:</p><pre><code>python3 -i hw04.py</code></pre>
+
+          <h3 class="question" id="q9">Question 9</h3>
+
+          <p>A famous problem, first raised by Richard Hamming, is to enumerate, in
+            ascending order with no repetitions, all positive integers with no
+            prime factors other than 2, 3, or 5. These are called
+            <a href="http://en.wikipedia.org/wiki/Regular_number">regular numbers</a>.
+            One obvious way to do this is to simply test each integer in turn to
+            see whether it has any factors other than 2, 3, and 5. But this is very
+            inefficient, since, as the integers get larger, fewer and fewer of them
+            fit the requirement.</p>
+
+          <p>As an alternative, we can write a generator function of such numbers.  Let us
+            call the sequence of numbers <code>s</code> and notice the following facts about it.</p>
+
+          <ul>
+            <li><code>s</code> begins with <code>1</code>.</li>
+            <li>The elements of <code>scale(s, 2)</code> are also elements of <code>s</code>.</li>
+            <li>The same is true for <code>scale(s, 3)</code> and <code>scale(s, 5)</code>.</li>
+            <li>These are all of the elements of <code>s</code>.</li>
+          </ul>
+
+          <p>Now all we have to do is combine elements from these sources. Use the <code>merge</code>
+            function you defined previously to fill in the definition of <code>make_s</code>:</p>
+
+          <solution>
+
+            <pre><code>def make_s():
+    &quot;&quot;&quot;A generator function that yields all positive integers with only factors
+    2, 3, and 5.
+
+    &gt;&gt;&gt; s = make_s()
+    &gt;&gt;&gt; type(s)
+    &lt;class &#x27;generator&#x27;&gt;
+    &gt;&gt;&gt; [next(s) for _ in range(20)]
+    [1, 2, 3, 4, 5, 6, 8, 9, 10, 12, 15, 16, 18, 20, 24, 25, 27, 30, 32, 36]
+    &quot;&quot;&quot;
+    "*** YOUR CODE HERE ***"</code></pre>
+
+          </solution>
+
+          <p>Test your code:</p><pre><code>python3 -i hw04.py</code></pre>
+
+        <p>Submit your completed hw04.py assignment on BB.</p>
+
+        </div>
+
+        <div class='col-md-3'>
+          <nav class='hidden-print hidden-sm hidden-xs sidebar'>
+            <ul>
+              <li><a href="index.html#required-questions">Required questions</a></li>
+              <ul>
+                <li><a href="index.html#q1">Question 1</a></li>
+                <li><a href="index.html#q2">Question 2</a></li>
+                <li><a href="index.html#q3">Question 3</a></li>
+                <li><a href="index.html#q4">Question 4</a></li>
+                <li><a href="index.html#q5">Question 5</a></li>
+                <li><a href="index.html#q6">Question 6</a></li>
+                <li><a href="index.html#q7">Question 7</a></li>
+                <li><a href="index.html#q8">Question 8</a></li>
+                <li><a href="index.html#q9">Question 9</a></li>
+
+              </ul>
+
+            </ul>
+
+          </nav>
+        </div>
+
+      </div>
+    </div>
+  </body>
+  <script>
+    $('.sidebar ul').addClass('nav nav-stacked');
+    $('body').scrollspy({
+      target: '.sidebar',
+      offset: 40
+    });
+  </script>
+
+</html>

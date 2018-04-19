@@ -115,19 +115,42 @@ class Link:
         return 'Link({0}{1})'.format(repr(self.first), rest_str)
 
     def __contains__(self, value):
-        "*** YOUR CODE HERE ***"
+        setOfObjects = set()
+        s = self
+        i = 0
+
+        while True:
+            if s.first is value:
+                return True
+
+            setOfObjects.add(s.first)
+            i += 1
+
+            if i != len(setOfObjects):
+                return False
+            if s.rest is ():
+                return False
+            s = s.rest
+
 
     def __iadd__(self, other):
-        "*** YOUR CODE HERE ***"
+        s = self
+        while True:
+            if s.rest is ():
+                s.rest = other
 
 
-# s = Link(1, Link(2, Link(3)))
+
+
+# Link(5, Link(1))
+s = Link(1, Link(2, Link(3)))
 # s.rest.rest.rest = s
-# print(has_cycle(s))
-# # True
+# # print(has_cycle(s))
+# # # True
 # t = Link(1, Link(2, Link(3)))
-# print(has_cycle(t))
-# # False
+# # print(has_cycle(t))
+# # # False
+
 # class ScaleIterator:
 #     """An iterator the scales elements of the iterable s by a number k.
 #
@@ -214,9 +237,9 @@ class Link:
 #         i += 1
 #
 #
-# def _test():
-#     import doctest
-#     doctest.testmod()
-#
-# if __name__ == "__main__":
-#     _test()
+def _test():
+    import doctest
+    doctest.testmod()
+
+if __name__ == "__main__":
+    _test()

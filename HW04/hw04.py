@@ -237,9 +237,9 @@ s = Link(1, Link(2, Link(3)))
 #         i += 1
 #
 #
-def _test():
-    import doctest
-    doctest.testmod()
-
-if __name__ == "__main__":
-    _test()
+# def _test():
+#     import doctest
+#     doctest.testmod()
+#
+# if __name__ == "__main__":
+#     _test()

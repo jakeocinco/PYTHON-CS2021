@@ -23,13 +23,11 @@ def every_other(s):
             if i % 2 == 0:
                 return Link(s.first,break_up(s.rest, i + 1))
             else:
-
                 return break_up(s.rest, i + 1)
         else:
             return Link(s.first)
 
     return break_up(s,0)
-
 
 def has_cycle(s):
     """Return whether Link s contains a cycle.
@@ -43,35 +41,24 @@ def has_cycle(s):
     False
     """
     "*** YOUR CODE HERE ***"
-    # NOt WORKING
-    def getIth(s,i):
-        if i == 0:
-            # print('--')
-            return s
-        else:
-            if s.rest is not ():
-
-                return getIth(s.rest,i-1)
-            else:
-                return ()
-
     i = 1
-    t = s
+    tortise = s.rest
+    hair = s.rest.rest
 
     while True:
-        if t.rest is not ():
+        if tortise is hair:
+            return True
 
-            h = getIth(s,i)
-
-            if h is ():
+        if hair.rest is not ():
+            if hair.rest.rest is not():
+                hair = hair.rest.rest
+            else:
                 return False
+        else:
+            return False
 
-            if h.first == t.first:
-                return True
-
-            t = t.rest
-            i += 1
-
+        if tortise.rest is not ():
+            tortise = tortise.rest
         else:
             return False
 
@@ -133,15 +120,14 @@ class Link:
     def __iadd__(self, other):
         "*** YOUR CODE HERE ***"
 
-s = Link(1, Link(2, Link(3)))
-s.rest.rest.rest = s
-print(has_cycle(s))
-# True
-t = Link(1, Link(2, Link(3)))
-print(has_cycle(t))
-# False
 
-
+# s = Link(1, Link(2, Link(3)))
+# s.rest.rest.rest = s
+# print(has_cycle(s))
+# # True
+# t = Link(1, Link(2, Link(3)))
+# print(has_cycle(t))
+# # False
 # class ScaleIterator:
 #     """An iterator the scales elements of the iterable s by a number k.
 #
